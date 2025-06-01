@@ -15,7 +15,7 @@ Route::prefix('dashboard-x1z3a9')->name('admin.')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
     // Protected admin routes
-    Route::middleware(['web', 'auth', 'admin'])->group(function () {
+    Route::middleware(['web', 'auth', \App\Http\Middleware\AdminMiddleware::class])->group(function () {
         // Dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         
