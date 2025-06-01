@@ -22,11 +22,14 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Enterprise CSS -->
+    <link rel="stylesheet" href="{{ asset('css/enterprise.css') }}">
     
     <style>
         body {
-            font-family: 'Kanit', sans-serif;
+            font-family: 'Inter', 'Kanit', sans-serif;
         }
         
         /* Custom scrollbar */
@@ -51,34 +54,6 @@
         .hover-up:hover {
             transform: translateY(-5px);
         }
-        
-        /* Product card gradient overlay */
-        .card-overlay {
-            background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%);
-        }
-        
-        /* Animations */
-        .animate-fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        /* Custom button styles */
-        .btn-primary {
-            @apply bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded transition duration-300;
-        }
-        
-        .btn-secondary {
-            @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded transition duration-300;
-        }
-        
-        .btn-buy {
-            @apply bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center gap-2;
-        }
     </style>
     
     <!-- Custom Scripts -->
@@ -89,10 +64,15 @@
                 extend: {
                     colors: {
                         primary: {
-                            light: '#8B5CF6',
-                            DEFAULT: '#7C3AED',
-                            dark: '#6D28D9',
+                            light: '#3B82F6',
+                            DEFAULT: '#2563EB',
+                            dark: '#1D4ED8',
                         },
+                        secondary: {
+                            light: '#475569',
+                            DEFAULT: '#334155',
+                            dark: '#1E293B',
+                        }
                     }
                 }
             }

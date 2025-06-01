@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- Search Header -->
-    <section class="bg-purple-600 py-10">
+    <section class="bg-slate-800 py-10">
         <div class="container mx-auto px-4">
             <h1 class="text-2xl md:text-3xl font-bold text-white mb-6 text-center">ผลการค้นหาสำหรับ: "{{ $query }}"</h1>
             
@@ -10,8 +10,8 @@
             <div class="max-w-2xl mx-auto">
                 <form action="{{ route('search') }}" method="GET" class="flex">
                     <input type="text" name="q" value="{{ $query }}" placeholder="ค้นหาสินค้า บทความ..."
-                        class="flex-grow px-4 py-3 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-purple-300 border-0">
-                    <button type="submit" class="bg-purple-700 hover:bg-purple-800 text-white font-medium px-6 py-3 rounded-r-lg transition duration-300">
+                        class="flex-grow px-4 py-3 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-slate-300 border-0">
+                    <button type="submit" class="bg-slate-700 hover:bg-slate-900 text-white font-medium px-6 py-3 rounded-r-lg transition duration-300">
                         <i class="fas fa-search"></i>
                     </button>
                 </form>
@@ -23,7 +23,7 @@
     <section class="container mx-auto px-4 py-8">
         <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
             <p class="text-gray-600">
-                พบ <span class="font-medium text-gray-900">{{ $totalResults }}</span> ผลลัพธ์สำหรับคำค้นหา "<span class="font-medium text-purple-600">{{ $query }}</span>"
+                พบ <span class="font-medium text-gray-900">{{ $totalResults }}</span> ผลลัพธ์สำหรับคำค้นหา "<span class="font-medium text-slate-700">{{ $query }}</span>"
             </p>
         </div>
 
@@ -34,8 +34,8 @@
                     <h2 class="text-xl font-bold text-gray-800 mb-4">หมวดหมู่ที่เกี่ยวข้อง</h2>
                     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                         @foreach($categories as $category)
-                            <a href="{{ route('category.show', $category->slug) }}" class="bg-white rounded-lg shadow-sm p-4 text-center hover-up">
-                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 mx-auto mb-3">
+                            <a href="{{ route('category.show', $category->slug) }}" class="category-card">
+                                <div class="category-icon">
                                     <i class="fas fa-folder"></i>
                                 </div>
                                 <h3 class="text-gray-800 font-medium">{{ $category->name }}</h3>
@@ -51,7 +51,7 @@
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-bold text-gray-800">สินค้าที่เกี่ยวข้อง</h2>
                         @if(count($products) > 8)
-                            <a href="#" class="text-purple-600 hover:text-purple-800 flex items-center text-sm font-medium">
+                            <a href="#" class="text-slate-600 hover:text-slate-800 flex items-center text-sm font-medium">
                                 ดูทั้งหมด <i class="fas fa-chevron-right ml-1 text-xs"></i>
                             </a>
                         @endif
@@ -71,7 +71,7 @@
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-bold text-gray-800">บทความที่เกี่ยวข้อง</h2>
                         @if(count($articles) > 3)
-                            <a href="#" class="text-purple-600 hover:text-purple-800 flex items-center text-sm font-medium">
+                            <a href="#" class="text-slate-600 hover:text-slate-800 flex items-center text-sm font-medium">
                                 ดูทั้งหมด <i class="fas fa-chevron-right ml-1 text-xs"></i>
                             </a>
                         @endif
@@ -114,22 +114,22 @@
     <section class="container mx-auto px-4 mt-10 mb-16">
         <h2 class="text-xl font-bold text-gray-800 mb-4">คำค้นหายอดนิยม</h2>
         <div class="flex flex-wrap gap-2">
-            <a href="{{ route('search', ['q' => 'สมาร์ทโฟน']) }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-purple-100 hover:text-purple-700">
+            <a href="{{ route('search', ['q' => 'สมาร์ทโฟน']) }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 hover:text-slate-800">
                 สมาร์ทโฟน
             </a>
-            <a href="{{ route('search', ['q' => 'รองเท้าวิ่ง']) }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-purple-100 hover:text-purple-700">
+            <a href="{{ route('search', ['q' => 'รองเท้าวิ่ง']) }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 hover:text-slate-800">
                 รองเท้าวิ่ง
             </a>
-            <a href="{{ route('search', ['q' => 'เสื้อผ้าแฟชั่น']) }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-purple-100 hover:text-purple-700">
+            <a href="{{ route('search', ['q' => 'เสื้อผ้าแฟชั่น']) }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 hover:text-slate-800">
                 เสื้อผ้าแฟชั่น
             </a>
-            <a href="{{ route('search', ['q' => 'กระเป๋า']) }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-purple-100 hover:text-purple-700">
+            <a href="{{ route('search', ['q' => 'กระเป๋า']) }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 hover:text-slate-800">
                 กระเป๋า
             </a>
-            <a href="{{ route('search', ['q' => 'ผลิตภัณฑ์บำรุงผิว']) }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-purple-100 hover:text-purple-700">
+            <a href="{{ route('search', ['q' => 'ผลิตภัณฑ์บำรุงผิว']) }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 hover:text-slate-800">
                 ผลิตภัณฑ์บำรุงผิว
             </a>
-            <a href="{{ route('search', ['q' => 'หูฟังไร้สาย']) }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-purple-100 hover:text-purple-700">
+            <a href="{{ route('search', ['q' => 'หูฟังไร้สาย']) }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 hover:text-slate-800">
                 หูฟังไร้สาย
             </a>
         </div>

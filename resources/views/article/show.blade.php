@@ -3,7 +3,7 @@
 @section('content')
     <!-- Article Header -->
     <section class="relative">
-        <div class="relative h-80 w-full overflow-hidden rounded-xl">
+        <div class="relative h-80 w-full overflow-hidden rounded-lg">
             <img class="w-full h-full object-cover" src="{{ $article->thumbnail_url }}" alt="{{ $article->title }}">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
             <div class="absolute bottom-0 left-0 p-6 md:p-10 w-full">
@@ -23,9 +23,9 @@
     <!-- Breadcrumbs -->
     <section class="container mx-auto px-4 py-4">
         <div class="flex items-center text-sm text-gray-600">
-            <a href="{{ route('home') }}" class="hover:text-purple-600">หน้าแรก</a>
+            <a href="{{ route('home') }}" class="hover:text-slate-800">หน้าแรก</a>
             <span class="mx-2">/</span>
-            <a href="{{ route('home') }}#latest-articles" class="hover:text-purple-600">บทความ</a>
+            <a href="{{ route('home') }}#latest-articles" class="hover:text-slate-800">บทความ</a>
             <span class="mx-2">/</span>
             <span class="text-gray-900 font-medium">{{ $article->title }}</span>
         </div>
@@ -80,19 +80,12 @@
                                         <div class="w-2/3 p-4">
                                             <a href="{{ $product->affiliate_link }}" target="_blank" rel="nofollow noopener" class="block">
                                                 <h3 class="text-md font-medium text-gray-800 mb-1 line-clamp-2">{{ $product->name }}</h3>
-                                                <div class="text-yellow-400 text-xs mb-1">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                </div>
                                                 <div class="flex justify-between items-center">
-                                                    <span class="text-purple-600 font-bold text-sm">{{ number_format($product->price, 2) }} บาท</span>
+                                                    <span class="text-slate-700 font-bold text-sm">{{ number_format($product->price, 2) }} บาท</span>
                                                 </div>
                                             </a>
-                                            <a href="{{ $product->affiliate_link }}" target="_blank" rel="nofollow noopener" class="btn-buy w-full mt-2 py-1 text-sm">
-                                                <i class="fas fa-shopping-cart"></i> ซื้อเลย
+                                            <a href="{{ $product->affiliate_link }}" target="_blank" rel="nofollow noopener" class="btn-detail w-full mt-2 py-1 text-sm">
+                                                <i class="fas fa-eye"></i> ดูเพิ่มเติม
                                             </a>
                                         </div>
                                     </div>
@@ -116,7 +109,7 @@
                                             <img class="w-full h-full object-cover rounded lazy" data-src="{{ $relatedArticle->thumbnail_url }}" alt="{{ $relatedArticle->title }}" src="{{ asset('images/placeholder.jpg') }}">
                                         </div>
                                         <div class="ml-4">
-                                            <h3 class="text-gray-800 font-medium group-hover:text-purple-600 transition duration-300 line-clamp-2">{{ $relatedArticle->title }}</h3>
+                                            <h3 class="text-gray-800 font-medium group-hover:text-slate-700 transition duration-300 line-clamp-2">{{ $relatedArticle->title }}</h3>
                                             <span class="text-gray-500 text-sm">{{ $relatedArticle->formatted_created_at }}</span>
                                         </div>
                                     </a>
@@ -136,7 +129,7 @@
                 <ul class="space-y-2">
                     @foreach($categories as $category)
                         <li>
-                            <a href="{{ route('category.show', $category->slug) }}" class="flex items-center justify-between px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-md">
+                            <a href="{{ route('category.show', $category->slug) }}" class="flex items-center justify-between px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-slate-800 rounded-md">
                                 <span>{{ $category->name }}</span>
                                 <i class="fas fa-chevron-right text-xs"></i>
                             </a>
@@ -155,48 +148,34 @@
                                 <img class="w-full h-full object-cover rounded lazy" data-src="{{ $popularProduct->image_url }}" alt="{{ $popularProduct->name }}" src="{{ asset('images/placeholder.jpg') }}">
                             </div>
                             <div class="ml-3">
-                                <h4 class="text-sm font-medium text-gray-800 group-hover:text-purple-600 transition duration-300 line-clamp-2">{{ $popularProduct->name }}</h4>
-                                <span class="text-purple-600 text-sm font-bold">{{ number_format($popularProduct->price, 2) }} บาท</span>
+                                <h4 class="text-sm font-medium text-gray-800 group-hover:text-slate-700 transition duration-300 line-clamp-2">{{ $popularProduct->name }}</h4>
+                                <span class="text-slate-700 text-sm font-bold">{{ number_format($popularProduct->price, 2) }} บาท</span>
                             </div>
                         </a>
                     @endforeach
                 </div>
             </div>
             
-            <!-- Newsletter -->
-            <div class="bg-purple-600 rounded-lg shadow-md p-6 text-white">
-                <h3 class="text-lg font-bold mb-2">รับข่าวสารจากเรา</h3>
-                <p class="text-purple-100 text-sm mb-4">
-                    ลงทะเบียนเพื่อรับข่าวสารและโปรโมชั่นพิเศษก่อนใคร
-                </p>
-                <form>
-                    <input type="email" placeholder="อีเมลของคุณ" class="w-full px-4 py-2 mb-2 rounded text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-300">
-                    <button type="submit" class="w-full bg-white text-purple-600 font-medium py-2 rounded hover:bg-gray-100 transition duration-300">
-                        สมัครรับข่าวสาร
-                    </button>
-                </form>
-            </div>
-            
             <!-- Tags -->
             <div class="bg-white rounded-lg shadow-md p-6 mt-8">
                 <h3 class="text-lg font-bold text-gray-800 mb-4">แท็ก</h3>
                 <div class="flex flex-wrap gap-2">
-                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700">
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 hover:text-slate-800">
                         รีวิวสินค้า
                     </a>
-                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700">
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 hover:text-slate-800">
                         แฟชั่น
                     </a>
-                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700">
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 hover:text-slate-800">
                         เทคโนโลยี
                     </a>
-                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700">
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 hover:text-slate-800">
                         สมาร์ทโฟน
                     </a>
-                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700">
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 hover:text-slate-800">
                         ไลฟ์สไตล์
                     </a>
-                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700">
+                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 hover:text-slate-800">
                         ความงาม
                     </a>
                 </div>

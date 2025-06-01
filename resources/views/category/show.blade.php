@@ -2,12 +2,12 @@
 
 @section('content')
     <!-- Category Header -->
-    <section class="bg-gradient-to-r from-purple-600 to-purple-800 rounded-xl overflow-hidden">
+    <section class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg overflow-hidden">
         <div class="container mx-auto px-6 py-12">
             <div class="text-center">
                 <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{{ $category->name }}</h1>
                 @if($category->description)
-                    <p class="text-lg text-purple-100 max-w-2xl mx-auto">
+                    <p class="text-lg text-gray-200 max-w-2xl mx-auto">
                         {{ $category->description }}
                     </p>
                 @endif
@@ -18,7 +18,7 @@
     <!-- Breadcrumbs -->
     <section class="container mx-auto px-4 py-4">
         <div class="flex items-center text-sm text-gray-600">
-            <a href="{{ route('home') }}" class="hover:text-purple-600">หน้าแรก</a>
+            <a href="{{ route('home') }}" class="hover:text-slate-800">หน้าแรก</a>
             <span class="mx-2">/</span>
             <span class="text-gray-900 font-medium">{{ $category->name }}</span>
         </div>
@@ -33,7 +33,7 @@
             </p>
             <div class="flex items-center gap-4">
                 <div class="relative">
-                    <select class="appearance-none bg-gray-100 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded focus:outline-none focus:ring-2 focus:ring-purple-600">
+                    <select class="appearance-none bg-gray-100 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded focus:outline-none focus:ring-2 focus:ring-slate-600">
                         <option>เรียงตามราคา: ต่ำ - สูง</option>
                         <option>เรียงตามราคา: สูง - ต่ำ</option>
                         <option>เรียงตามความนิยม</option>
@@ -58,35 +58,7 @@
             <!-- Products Grid -->
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @foreach($products as $product)
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover-up">
-                        <div class="relative">
-                            <a href="{{ $product->affiliate_link }}" target="_blank" rel="nofollow noopener">
-                                <img class="w-full h-48 object-cover lazy" data-src="{{ $product->image_url }}" alt="{{ $product->name }}" src="{{ asset('images/placeholder.jpg') }}">
-                                @if($product->is_featured)
-                                    <div class="absolute top-0 right-0 bg-orange-500 text-white text-xs font-bold px-2 py-1 m-2 rounded">แนะนำ</div>
-                                @endif
-                            </a>
-                        </div>
-                        <div class="p-4">
-                            <a href="{{ $product->affiliate_link }}" target="_blank" rel="nofollow noopener" class="block">
-                                <h3 class="text-lg font-medium text-gray-800 mb-2 line-clamp-2 h-14">{{ $product->name }}</h3>
-                                <p class="text-gray-500 text-sm mb-2">{{ $product->category->name }}</p>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-purple-600 font-bold">{{ number_format($product->price, 2) }} บาท</span>
-                                    <div class="text-yellow-400">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="{{ $product->affiliate_link }}" target="_blank" rel="nofollow noopener" class="btn-buy w-full mt-4">
-                                <i class="fas fa-shopping-cart"></i> ซื้อเลย
-                            </a>
-                        </div>
-                    </div>
+                    <x-product-card :product="$product" />
                 @endforeach
             </div>
         @else
@@ -112,7 +84,7 @@
                     <a href="#" class="py-2 px-4 bg-white border border-gray-300 rounded-l-md text-gray-700 hover:bg-gray-100">
                         <i class="fas fa-chevron-left"></i>
                     </a>
-                    <a href="#" class="py-2 px-4 bg-purple-600 border border-purple-600 text-white">1</a>
+                    <a href="#" class="py-2 px-4 bg-slate-700 border border-slate-700 text-white">1</a>
                     <a href="#" class="py-2 px-4 bg-white border border-gray-300 text-gray-700 hover:bg-gray-100">2</a>
                     <a href="#" class="py-2 px-4 bg-white border border-gray-300 text-gray-700 hover:bg-gray-100">3</a>
                     <span class="py-2 px-4 bg-white border border-gray-300 text-gray-700">...</span>
@@ -147,9 +119,9 @@
         <h2 class="text-2xl font-bold text-gray-800 mb-6">หมวดหมู่ที่เกี่ยวข้อง</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             @foreach($categories->where('id', '!=', $category->id)->take(6) as $relatedCategory)
-                <a href="{{ route('category.show', $relatedCategory->slug) }}" class="bg-white rounded-lg shadow-sm p-4 text-center hover-up">
-                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 mx-auto mb-3">
-                        <i class="fas fa-{{ $loop->index == 0 ? 'tshirt' : ($loop->index == 1 ? 'mobile-alt' : ($loop->index == 2 ? 'shoe-prints' : ($loop->index == 3 ? 'gem' : 'heart'))) }}"></i>
+                <a href="{{ route('category.show', $relatedCategory->slug) }}" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-{{ $loop->index == 0 ? 'tshirt' : ($loop->index == 1 ? 'mobile-alt' : ($loop->index == 2 ? 'shoe-prints' : ($loop->index == 3 ? 'gem' : 'box'))) }}"></i>
                     </div>
                     <h3 class="text-gray-800 font-medium">{{ $relatedCategory->name }}</h3>
                 </a>
@@ -160,7 +132,7 @@
     <!-- Call to Action -->
     <section class="mt-16">
         <div class="container mx-auto px-4">
-            <div class="bg-gray-100 rounded-xl p-8 text-center">
+            <div class="bg-gray-100 rounded-lg p-8 text-center">
                 <h2 class="text-2xl font-bold text-gray-800 mb-2">ไม่พบสิ่งที่คุณกำลังมองหา?</h2>
                 <p class="text-gray-600 mb-6 max-w-xl mx-auto">
                     ลองเยี่ยมชมหมวดหมู่อื่น ๆ หรือดูบทความรีวิวสินค้าของเราเพื่อค้นพบสินค้าที่เหมาะกับคุณ
