@@ -1,2 +1,6 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /dashboard-x1z3a9/
+Disallow: /search
+
+Sitemap: {{ url('/sitemap.xml') }}
