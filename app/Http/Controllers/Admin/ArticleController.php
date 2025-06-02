@@ -89,9 +89,10 @@ class ArticleController extends Controller
         
         $article->save();
         
-        // Handle tags - ไม่ต้องตรวจสอบ has('tags') อีกต่อไป เพราะในความเป็นจริงแล้ว 
-        // จะมีค่าเป็น empty string หากไม่มีการระบุ tag
-        $this->syncTags($request->tags, $article);
+        // Handle tags
+        if ($request->has('tags')) {
+            $article->tags()->attach($request->tags);
+        }
         
         // Attach products to article if selected
         if ($request->has('products')) {
@@ -165,8 +166,12 @@ class ArticleController extends Controller
         
         $article->save();
         
-        // Handle tags (always process tags even if empty string)
-        $this->syncTags($request->tags, $article);
+        // Sync tags
+        if ($request->has('tags')) {
+            $article->tags()->sync($request->tags);
+        } else {
+            $article->tags()->detach();
+        }
         
         // Sync products
         if ($request->has('products')) {
@@ -205,43 +210,5 @@ class ArticleController extends Controller
         
         return redirect()->route('admin.articles.index')
             ->with('success', 'ลบบทความสำเร็จ');
-    }
-    
-    /**
-     * Sync tags with the article
-     */
-    private function syncTags($tagInput, $article)
-    {
-        $tagIds = [];
-        
-        // ตรวจสอบว่า $tagInput เป็น string หรือไม่ (ถ้ามาจาก Tagify จะเป็น string)
-        if (is_string($tagInput)) {
-            // แยก tags ออกมาเป็น array โดยใช้ comma หรือ space เป็นตัวแบ่ง
-            $tagNames = array_map('trim', preg_split('/,|\s+/', $tagInput, -1, PREG_SPLIT_NO_EMPTY));
-        } else {
-            // ถ้าเป็น array อยู่แล้วก็ใช้ได้เลย
-            $tagNames = $tagInput;
-        }
-        
-        foreach ($tagNames as $tagName) {
-            // Skip empty tags
-            if (empty(trim($tagName))) {
-                continue;
-            }
-            
-            // Create slug
-            $slug = Str::slug($tagName);
-            
-            // Find or create the tag
-            $tag = Tag::firstOrCreate(
-                ['slug' => $slug],
-                ['name' => $tagName]
-            );
-            
-            $tagIds[] = $tag->id;
-        }
-        
-        // Sync tags with the article
-        $article->tags()->sync($tagIds);
     }
 }

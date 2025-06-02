@@ -8,22 +8,35 @@
     <!-- Include Quill.js -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     
-    <!-- Include tagify -->
-    <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet">
+    <!-- Include Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
     <style>
         .ql-editor {
             min-height: 300px;
         }
         
-        .tagify {
-            width: 100%;
-            max-width: 100%;
+        /* สไตล์สำหรับ select2 */
+        .select2-container--default .select2-selection--multiple {
             border: 1px solid #e2e8f0;
             border-radius: 0.375rem;
+            min-height: 38px;
+            padding: 2px;
         }
         
-        .tagify__input {
-            padding: 0.5rem;
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border-color: #a5b4fc;
+            box-shadow: 0 0 0 3px rgba(165, 180, 252, 0.5);
+        }
+        
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            padding: 0.125rem 0.375rem;
+            margin-top: 4px;
         }
         
         .product-search-results {
@@ -123,9 +136,13 @@
                 </div>
                 
                 <div class="mb-6">
-                    <label for="tags-input" class="block text-sm font-medium text-gray-700 mb-2">แท็ก</label>
-                    <input name="tags" id="tags-input" class="w-full px-3 py-2 border border-gray-300 rounded-md">
-                    <p class="mt-1 text-xs text-gray-500">ใส่แท็กเพื่อช่วยในการค้นหาบทความ (กด Enter หลังแต่ละแท็ก)</p>
+                    <label for="tags" class="block text-sm font-medium text-gray-700 mb-2">แท็ก</label>
+                    <select name="tags[]" id="tags" class="w-full px-3 py-2 border border-gray-300 rounded-md" multiple>
+                        @foreach($tags as $tag)
+                            <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                        @endforeach
+                    </select>
+                    <p class="mt-1 text-xs text-gray-500">เลือกแท็กที่เกี่ยวข้องกับบทความนี้</p>
                     @error('tags.*')
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                     @enderror
@@ -173,9 +190,6 @@
     <!-- Include Quill.js -->
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     
-    <!-- Include tagify -->
-    <script src="https://unpkg.com/@yaireo/tagify"></script>
-    
     <script>
         // Initialize Quill editor
         const quill = new Quill('#editor', {
@@ -205,19 +219,13 @@
             document.getElementById('content').value = quill.root.innerHTML;
         });
         
-        // Initialize Tagify
-        const input = document.getElementById('tags-input');
-        const tagify = new Tagify(input, {
-            pattern: /^.{1,50}$/,
-            delimiters: ',| ',
-            maxTags: 10,
-            dropdown: {
-                enabled: 0
-            },
-            transformTag: function(tagData) {
-                // Capitalize first letter
-                tagData.value = tagData.value.charAt(0).toUpperCase() + tagData.value.slice(1).toLowerCase();
-            }
+        // Initialize Select2 for tags
+        $(document).ready(function() {
+            $('#tags').select2({
+                placeholder: 'เลือกแท็ก...',
+                allowClear: true,
+                width: '100%'
+            });
         });
         
         // Product search functionality

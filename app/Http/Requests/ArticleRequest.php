@@ -35,7 +35,8 @@ class ArticleRequest extends FormRequest
             'meta_description' => 'nullable|string|max:160',
             'products' => 'nullable|array',
             'products.*' => 'exists:products,id',
-            'tags' => 'nullable|string', // เปลี่ยนจาก array เป็น string
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ];
 
         // Handle unique slug validation
@@ -76,6 +77,7 @@ class ArticleRequest extends FormRequest
             'thumbnail.mimes' => 'รูปภาพต้องเป็นไฟล์ประเภท jpeg, png, jpg, gif หรือ webp เท่านั้น',
             'thumbnail.max' => 'รูปภาพต้องมีขนาดไม่เกิน 2MB',
             'products.*.exists' => 'สินค้าที่เลือกไม่มีอยู่ในระบบ',
+            'tags.*.exists' => 'แท็กที่เลือกไม่มีอยู่ในระบบ',
             'meta_title.max' => 'Meta Title ไม่ควรเกิน 70 ตัวอักษร',
             'meta_description.max' => 'Meta Description ไม่ควรเกิน 160 ตัวอักษร',
         ];
