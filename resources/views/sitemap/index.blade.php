@@ -29,7 +29,7 @@
     <!-- Articles -->
     @foreach($articles as $article)
         <url>
-            <loc>{{ route('article.show', ['article' => $article->slug]) }}</loc>
+            <loc>{{ route('article.show', ['article' => $article]) }}</loc>
             <lastmod>{{ $article->updated_at->toAtomString() }}</lastmod>
             <changefreq>monthly</changefreq>
             <priority>0.7</priority>

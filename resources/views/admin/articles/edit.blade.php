@@ -166,7 +166,7 @@
                         <p class="text-sm text-gray-700 mb-2">จำนวนการเข้าชม: <span class="font-medium">{{ number_format($article->views) }} ครั้ง</span></p>
                         <p class="text-sm text-gray-700 mb-2">สร้างเมื่อ: {{ $article->created_at->format('d/m/Y H:i') }}</p>
                         <p class="text-sm text-gray-700 mb-2">แก้ไขล่าสุด: {{ $article->updated_at->format('d/m/Y H:i') }}</p>
-                        <p class="text-sm text-gray-700 mb-2">URL: <a href="{{ route('article.show', $article) }}" target="_blank" class="text-blue-500 hover:underline">{{ route('article.show', $article) }}</a></p>
+                        <p class="text-sm text-gray-700 mb-2">URL: <a href="{{ route('article.show', $article->slug) }}" target="_blank" class="text-blue-500 hover:underline">{{ route('article.show', $article->slug) }}</a></p>
                     </div>
                 </div>
             </div>
@@ -261,7 +261,7 @@
         
         productSearch.addEventListener('input', debounce(function(e) {
             const query = e.target.value.trim();
-        
+            
             if (query.length < 2) {
                 productSearchResults.innerHTML = '';
                 productSearchResults.classList.add('hidden');

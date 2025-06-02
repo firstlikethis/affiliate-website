@@ -1,7 +1,8 @@
+<!-- resources/views/components/article-card.blade.php -->
 @props(['article'])
 
 <div {{ $attributes->merge(['class' => 'bg-white rounded-lg shadow-sm overflow-hidden hover-up article-card']) }}>
-    <a href="{{ route('article.show', $article) }}" class="block relative">
+    <a href="{{ route('article.show', $article->slug) }}" class="block relative">
         <div class="article-image">
             <img class="lazy" data-src="{{ $article->thumbnail_url }}" alt="{{ $article->title }}" src="{{ asset('images/placeholder.jpg') }}">
             
@@ -19,7 +20,7 @@
                 {{ $article->formatted_created_at }}
             </span>
         </div>
-        <a href="{{ route('article.show', $article) }}">
+        <a href="{{ route('article.show', $article->slug) }}">
             <h3 class="text-lg font-medium text-gray-800 mb-2 hover:text-purple-700 transition">{{ $article->title }}</h3>
         </a>
         <p class="text-gray-600 mb-4 line-clamp-3">
@@ -33,7 +34,7 @@
             @if($article->tags->count() > 0)
                 <div class="flex flex-wrap gap-2 mb-4">
                     @foreach($article->tags as $tag)
-                        <a href="{{ route('article.tag', $tag) }}" class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full hover:bg-purple-200">
+                        <a href="{{ route('article.tag', $tag->slug) }}" class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full hover:bg-purple-200">
                             {{ $tag->name }}
                         </a>
                     @endforeach
@@ -44,7 +45,7 @@
                 <span class="text-gray-500 text-sm flex items-center">
                     <i class="far fa-eye mr-1"></i> {{ number_format($article->views) }}
                 </span>
-                <a href="{{ route('article.show', $article) }}" class="text-purple-600 font-medium hover:text-purple-800 inline-flex items-center">
+                <a href="{{ route('article.show', $article->slug) }}" class="text-purple-600 font-medium hover:text-purple-800 inline-flex items-center">
                     อ่านเพิ่มเติม <i class="fas fa-arrow-right ml-1"></i>
                 </a>
             </div>

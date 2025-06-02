@@ -66,7 +66,7 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <a href="{{ route('article.show', $article) }}" target="_blank" class="text-blue-600 hover:text-blue-900 mr-3">
+                                <a href="{{ route('article.show', $article->slug) }}" target="_blank" class="text-blue-600 hover:text-blue-900 mr-3">
                                     <i class="fas fa-eye"></i> ดู
                                 </a>
                                 

@@ -16,22 +16,6 @@ class ArticleRequest extends FormRequest
     {
         return true; // Authorization is handled by middleware
     }
-    
-    /**
-     * Prepare the data for validation.
-     *
-     * @return void
-     */
-    protected function prepareForValidation()
-    {
-        // ถ้า tags เป็น string ให้แปลงเป็น array
-        if ($this->has('tags') && is_string($this->tags)) {
-            // กรณีเป็น comma-separated string
-            $this->merge([
-                'tags' => array_filter(explode(',', $this->tags)),
-            ]);
-        }
-    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -51,7 +35,7 @@ class ArticleRequest extends FormRequest
             'meta_description' => 'nullable|string|max:160',
             'products' => 'nullable|array',
             'products.*' => 'exists:products,id',
-            'tags' => 'nullable',  // ปรับให้รับได้ทั้ง array และ string
+            'tags' => 'nullable|array',
             'tags.*' => 'string|max:50',
         ];
 
