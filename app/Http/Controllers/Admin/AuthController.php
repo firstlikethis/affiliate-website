@@ -1,4 +1,5 @@
 <?php
+// app/Http/Controllers/Admin/AuthController.php
 
 namespace App\Http\Controllers\Admin;
 
@@ -31,8 +32,14 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
         
+        // For debugging - remove this in production
+        \Log::info('Login attempt with: ' . $credentials['email']);
+        
         // Attempt to authenticate
         if (Auth::attempt($credentials)) {
+            // For debugging - remove this in production
+            \Log::info('Authentication successful');
+            
             // Check if user is admin
             if (Auth::user()->is_admin) {
                 $request->session()->regenerate();
@@ -41,6 +48,9 @@ class AuthController extends Controller
                     ->with('success', 'เข้าสู่ระบบสำเร็จ');
             }
             
+            // For debugging - remove this in production
+            \Log::info('User is not admin');
+            
             // If not admin, logout and redirect with error
             Auth::logout();
             
@@ -48,6 +58,9 @@ class AuthController extends Controller
                 'email' => 'คุณไม่มีสิทธิ์เข้าถึงส่วนนี้',
             ]);
         }
+        
+        // For debugging - remove this in production
+        \Log::info('Authentication failed');
         
         // Authentication failed
         return back()->withErrors([

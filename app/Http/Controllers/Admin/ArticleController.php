@@ -1,13 +1,16 @@
 <?php
+// app/Http/Controllers/Admin/ArticleController.php
 
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Product;
+use App\Models\Tag;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
@@ -16,7 +19,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::all();
+        $articles = Article::with('tags')->paginate(10);
         return view('admin.articles.index', compact('articles'));
     }
 
@@ -25,8 +28,24 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $products = Product::all();
-        return view('admin.articles.create', compact('products'));
+        $tags = Tag::all();
+        return view('admin.articles.create', compact('tags'));
+    }
+    
+    /**
+     * Search for products while creating/editing articles
+     */
+    public function searchProducts(Request $request)
+    {
+        $query = $request->input('query');
+        
+        $products = Product::where('name', 'LIKE', "%{$query}%")
+            ->orWhere('meta_title', 'LIKE', "%{$query}%")
+            ->with('category')
+            ->take(10)
+            ->get();
+            
+        return response()->json($products);
     }
 
     /**
@@ -40,6 +59,7 @@ class ArticleController extends Controller
         $article->content = $request->content;
         $article->meta_title = $request->meta_title ?? $request->title;
         $article->meta_description = $request->meta_description ?? Str::limit(strip_tags($request->content), 160);
+        $article->views = 0;
         
         // Handle Schema.org JSON-LD markup
         $schemaMarkup = [
@@ -69,6 +89,11 @@ class ArticleController extends Controller
         
         $article->save();
         
+        // Handle tags
+        if ($request->has('tags')) {
+            $this->syncTags($request->tags, $article);
+        }
+        
         // Attach products to article if selected
         if ($request->has('products')) {
             $position = 0;
@@ -87,10 +112,12 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        $products = Product::all();
+        $tags = Tag::all();
+        $selectedTags = $article->tags->pluck('id')->toArray();
         $selectedProducts = $article->products->pluck('id')->toArray();
+        $products = $article->products;
         
-        return view('admin.articles.edit', compact('article', 'products', 'selectedProducts'));
+        return view('admin.articles.edit', compact('article', 'tags', 'selectedTags', 'selectedProducts', 'products'));
     }
 
     /**
@@ -139,6 +166,13 @@ class ArticleController extends Controller
         
         $article->save();
         
+        // Handle tags
+        if ($request->has('tags')) {
+            $this->syncTags($request->tags, $article);
+        } else {
+            $article->tags()->detach();
+        }
+        
         // Sync products
         if ($request->has('products')) {
             $syncData = [];
@@ -168,12 +202,42 @@ class ArticleController extends Controller
             Storage::disk('public')->delete($article->thumbnail);
         }
         
-        // Detach all products
+        // Detach all products and tags
         $article->products()->detach();
+        $article->tags()->detach();
         
         $article->delete();
         
         return redirect()->route('admin.articles.index')
             ->with('success', 'ลบบทความสำเร็จ');
+    }
+    
+    /**
+     * Sync tags with the article
+     */
+    private function syncTags($tagInput, $article)
+    {
+        $tagIds = [];
+        
+        foreach ($tagInput as $tagName) {
+            // Skip empty tags
+            if (empty(trim($tagName))) {
+                continue;
+            }
+            
+            // Create slug
+            $slug = Str::slug($tagName);
+            
+            // Find or create the tag
+            $tag = Tag::firstOrCreate(
+                ['slug' => $slug],
+                ['name' => $tagName]
+            );
+            
+            $tagIds[] = $tag->id;
+        }
+        
+        // Sync tags with the article
+        $article->tags()->sync($tagIds);
     }
 }

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
@@ -13,17 +14,21 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('users')->insert([
+        // Delete any existing users first to avoid duplicates
+        User::truncate();
+        
+        // Create admin user
+        User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password123'), // ควรเปลี่ยนในการใช้งานจริง
+            'password' => Hash::make('password123'),
             'is_admin' => true,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        // เพิ่ม user สำหรับทดสอบ (ลบในโปรดักชัน)
-        DB::table('users')->insert([
+        // Create test user
+        User::create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => Hash::make('password123'),
@@ -31,5 +36,7 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        
+        $this->command->info('Admin users created successfully!');
     }
 }

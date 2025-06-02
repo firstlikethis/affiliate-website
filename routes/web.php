@@ -26,6 +26,14 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
+// Articles routes
+Route::get('/articles', [ArticleController::class, 'index'])->name('article.index');
+Route::get('/article/{article:slug}', [ArticleController::class, 'show'])->name('article.show');
+Route::get('/tag/{tag:slug}', [ArticleController::class, 'tag'])->name('article.tag');
+
+// Product search for articles
+Route::post('/articles/search-products', [ArticleController::class, 'searchProducts'])->name('articles.search-products');
+
 // Sitemap
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
 

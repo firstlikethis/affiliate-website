@@ -9,11 +9,24 @@
             <div class="absolute bottom-0 left-0 p-6 md:p-10 w-full">
                 <div class="max-w-3xl">
                     <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{{ $article->title }}</h1>
-                    <div class="flex items-center text-white/80 text-sm">
+                    <div class="flex flex-wrap items-center gap-4 text-white/80 text-sm">
                         <span class="flex items-center">
                             <i class="far fa-calendar-alt mr-1"></i>
                             {{ $article->formatted_created_at }}
                         </span>
+                        <span class="flex items-center">
+                            <i class="far fa-eye mr-1"></i>
+                            {{ number_format($article->views) }} ครั้ง
+                        </span>
+                        @if(count($tags) > 0)
+                            <div class="flex items-center flex-wrap gap-2">
+                                @foreach($tags as $tag)
+                                    <a href="{{ route('article.tag', $tag->slug) }}" class="px-2 py-1 bg-white/20 text-white text-xs rounded-full hover:bg-white/30">
+                                        {{ $tag->name }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -23,9 +36,9 @@
     <!-- Breadcrumbs -->
     <section class="container mx-auto px-4 py-4">
         <div class="flex items-center text-sm text-gray-600">
-            <a href="{{ route('home') }}" class="hover:text-slate-800">หน้าแรก</a>
+            <a href="{{ route('home') }}" class="hover:text-purple-600">หน้าแรก</a>
             <span class="mx-2">/</span>
-            <a href="{{ route('home') }}#latest-articles" class="hover:text-slate-800">บทความ</a>
+            <a href="{{ route('article.index') }}" class="hover:text-purple-600">บทความ</a>
             <span class="mx-2">/</span>
             <span class="text-gray-900 font-medium">{{ $article->title }}</span>
         </div>
@@ -41,6 +54,20 @@
                     <div class="prose max-w-none">
                         {!! $article->content !!}
                     </div>
+
+                    <!-- Article Tags -->
+                    @if(count($tags) > 0)
+                        <div class="mt-8 pt-6 border-t border-gray-200">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">แท็ก</h3>
+                            <div class="flex flex-wrap gap-2">
+                                @foreach($tags as $tag)
+                                    <a href="{{ route('article.tag', $tag->slug) }}" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700">
+                                        {{ $tag->name }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
 
                     <!-- Social Share -->
                     <div class="mt-10 pt-6 border-t border-gray-200">
@@ -109,8 +136,13 @@
                                             <img class="w-full h-full object-cover rounded lazy" data-src="{{ $relatedArticle->thumbnail_url }}" alt="{{ $relatedArticle->title }}" src="{{ asset('images/placeholder.jpg') }}">
                                         </div>
                                         <div class="ml-4">
-                                            <h3 class="text-gray-800 font-medium group-hover:text-slate-700 transition duration-300 line-clamp-2">{{ $relatedArticle->title }}</h3>
-                                            <span class="text-gray-500 text-sm">{{ $relatedArticle->formatted_created_at }}</span>
+                                            <h3 class="text-gray-800 font-medium group-hover:text-purple-700 transition duration-300 line-clamp-2">{{ $relatedArticle->title }}</h3>
+                                            <div class="flex items-center text-gray-500 text-sm">
+                                                <span class="mr-3">{{ $relatedArticle->formatted_created_at }}</span>
+                                                <span class="flex items-center">
+                                                    <i class="far fa-eye mr-1"></i> {{ number_format($relatedArticle->views) }}
+                                                </span>
+                                            </div>
                                         </div>
                                     </a>
                                 @endforeach
@@ -129,7 +161,7 @@
                 <ul class="space-y-2">
                     @foreach($categories as $category)
                         <li>
-                            <a href="{{ route('category.show', $category->slug) }}" class="flex items-center justify-between px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-slate-800 rounded-md">
+                            <a href="{{ route('category.show', $category->slug) }}" class="flex items-center justify-between px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-purple-700 rounded-md">
                                 <span>{{ $category->name }}</span>
                                 <i class="fas fa-chevron-right text-xs"></i>
                             </a>
@@ -148,7 +180,7 @@
                                 <img class="w-full h-full object-cover rounded lazy" data-src="{{ $popularProduct->image_url }}" alt="{{ $popularProduct->name }}" src="{{ asset('images/placeholder.jpg') }}">
                             </div>
                             <div class="ml-3">
-                                <h4 class="text-sm font-medium text-gray-800 group-hover:text-slate-700 transition duration-300 line-clamp-2">{{ $popularProduct->name }}</h4>
+                                <h4 class="text-sm font-medium text-gray-800 group-hover:text-purple-700 transition duration-300 line-clamp-2">{{ $popularProduct->name }}</h4>
                                 <span class="text-slate-700 text-sm font-bold">{{ number_format($popularProduct->price, 2) }} บาท</span>
                             </div>
                         </a>
@@ -156,27 +188,17 @@
                 </div>
             </div>
             
-            <!-- Tags -->
+            <!-- Article Tags -->
             <div class="bg-white rounded-lg shadow-md p-6 mt-8">
                 <h3 class="text-lg font-bold text-gray-800 mb-4">แท็ก</h3>
                 <div class="flex flex-wrap gap-2">
-                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 hover:text-slate-800">
-                        รีวิวสินค้า
-                    </a>
-                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 hover:text-slate-800">
-                        แฟชั่น
-                    </a>
-                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 hover:text-slate-800">
-                        เทคโนโลยี
-                    </a>
-                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 hover:text-slate-800">
-                        สมาร์ทโฟน
-                    </a>
-                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 hover:text-slate-800">
-                        ไลฟ์สไตล์
-                    </a>
-                    <a href="#" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200 hover:text-slate-800">
-                        ความงาม
+                    @foreach($tags as $tag)
+                        <a href="{{ route('article.tag', $tag->slug) }}" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700">
+                            {{ $tag->name }}
+                        </a>
+                    @endforeach
+                    <a href="{{ route('article.index') }}" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700">
+                        ดูแท็กทั้งหมด
                     </a>
                 </div>
             </div>

@@ -37,11 +37,48 @@
                     </div>
                 </div>
                 
-                <!-- Latest Articles -->
-                <a href="{{ route('home') }}#latest-articles" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-slate-800 hover:bg-gray-50">
-                    บทความล่าสุด
+                <!-- Articles -->
+                <a href="{{ route('article.index') }}" class="px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('article.*') ? 'text-slate-800 bg-gray-100' : 'text-gray-700 hover:text-slate-800 hover:bg-gray-50' }}">
+                    บทความ
                 </a>
             </nav>
+
+            <!-- Mobile menu section - update the div with id="mobile-menu" -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="pt-2 pb-3 space-y-1 px-4 sm:px-6 lg:px-8">
+                    <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('home') ? 'text-slate-800 bg-gray-100' : 'text-gray-700 hover:bg-gray-100' }}">
+                        หน้าแรก
+                    </a>
+                    
+                    <!-- Categories -->
+                    <div>
+                        <button class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                            <span>หมวดหมู่</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        
+                        <div class="hidden pl-4 mt-1 space-y-1">
+                            @foreach($globalCategories as $category)
+                                <a href="{{ route('category.show', $category->slug) }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">
+                                    {{ $category->name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    
+                    <!-- Articles -->
+                    <a href="{{ route('article.index') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('article.*') ? 'text-slate-800 bg-gray-100' : 'text-gray-700 hover:bg-gray-100' }}">
+                        บทความ
+                    </a>
+                    
+                    <!-- Contact -->
+                    <a href="{{ route('contact.index') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('contact.*') ? 'text-slate-800 bg-gray-100' : 'text-gray-700 hover:bg-gray-100' }}">
+                        ติดต่อเรา
+                    </a>
+                </div>
+            </div>
             
             <!-- Mobile menu button -->
             <div class="flex items-center md:hidden">

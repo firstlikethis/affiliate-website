@@ -66,6 +66,11 @@
                     @endforeach
                 </tbody>
             </table>
+            
+            <!-- Pagination -->
+            <div class="px-6 py-4">
+                {{ $products->links() }}
+            </div>
         @else
             <div class="p-6 text-center">
                 <p class="text-gray-500">ยังไม่มีข้อมูลสินค้า</p>

@@ -1,4 +1,5 @@
 <?php
+// app/Http/Requests/ArticleRequest.php
 
 namespace App\Http\Requests;
 
@@ -34,6 +35,8 @@ class ArticleRequest extends FormRequest
             'meta_description' => 'nullable|string|max:160',
             'products' => 'nullable|array',
             'products.*' => 'exists:products,id',
+            'tags' => 'nullable|array',
+            'tags.*' => 'string|max:50',
         ];
 
         // Handle unique slug validation
@@ -76,6 +79,7 @@ class ArticleRequest extends FormRequest
             'products.*.exists' => 'สินค้าที่เลือกไม่มีอยู่ในระบบ',
             'meta_title.max' => 'Meta Title ไม่ควรเกิน 70 ตัวอักษร',
             'meta_description.max' => 'Meta Description ไม่ควรเกิน 160 ตัวอักษร',
+            'tags.*.max' => 'แท็กต้องมีความยาวไม่เกิน 50 ตัวอักษร',
         ];
     }
 }

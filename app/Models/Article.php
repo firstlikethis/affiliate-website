@@ -79,4 +79,20 @@ class Article extends Model
     {
         return $this->created_at->format('d M Y');
     }
+
+    /**
+     * The tags that belong to the article.
+     */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+    
+    /**
+     * Increment the view count for this article.
+     */
+    public function incrementViewCount(): void
+    {
+        $this->increment('views');
+    }
 }
