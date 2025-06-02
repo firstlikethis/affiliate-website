@@ -89,10 +89,9 @@ class ArticleController extends Controller
         
         $article->save();
         
-        // Handle tags
-        if ($request->has('tags')) {
-            $this->syncTags($request->tags, $article);
-        }
+        // Handle tags - ไม่ต้องตรวจสอบ has('tags') อีกต่อไป เพราะในความเป็นจริงแล้ว 
+        // จะมีค่าเป็น empty string หากไม่มีการระบุ tag
+        $this->syncTags($request->tags, $article);
         
         // Attach products to article if selected
         if ($request->has('products')) {
@@ -166,12 +165,8 @@ class ArticleController extends Controller
         
         $article->save();
         
-        // Handle tags
-        if ($request->has('tags')) {
-            $this->syncTags($request->tags, $article);
-        } else {
-            $article->tags()->detach();
-        }
+        // Handle tags (always process tags even if empty string)
+        $this->syncTags($request->tags, $article);
         
         // Sync products
         if ($request->has('products')) {
@@ -219,7 +214,16 @@ class ArticleController extends Controller
     {
         $tagIds = [];
         
-        foreach ($tagInput as $tagName) {
+        // ตรวจสอบว่า $tagInput เป็น string หรือไม่ (ถ้ามาจาก Tagify จะเป็น string)
+        if (is_string($tagInput)) {
+            // แยก tags ออกมาเป็น array โดยใช้ comma หรือ space เป็นตัวแบ่ง
+            $tagNames = array_map('trim', preg_split('/,|\s+/', $tagInput, -1, PREG_SPLIT_NO_EMPTY));
+        } else {
+            // ถ้าเป็น array อยู่แล้วก็ใช้ได้เลย
+            $tagNames = $tagInput;
+        }
+        
+        foreach ($tagNames as $tagName) {
             // Skip empty tags
             if (empty(trim($tagName))) {
                 continue;
