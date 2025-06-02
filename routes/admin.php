@@ -27,5 +27,9 @@ Route::prefix('dashboard-x1z3a9')->name('admin.')->group(function () {
         
         // Articles management
         Route::resource('articles', ArticleController::class);
+        
+        // เพิ่ม route สำหรับ search products ในบทความ
+        Route::post('articles/search-products', [ArticleController::class, 'searchProducts'])
+            ->name('articles.search-products');
     });
 });

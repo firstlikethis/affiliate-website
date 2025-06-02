@@ -61,7 +61,7 @@
                             <h3 class="text-lg font-medium text-gray-900 mb-4">แท็ก</h3>
                             <div class="flex flex-wrap gap-2">
                                 @foreach($tags as $tag)
-                                    <a href="{{ route('article.tag', $tag->slug) }}" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700">
+                                    <a href="{{ route('article.tag', ['tag' => $tag]) }}" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700">
                                         {{ $tag->name }}
                                     </a>
                                 @endforeach
@@ -131,7 +131,7 @@
                             <h2 class="text-2xl font-bold text-gray-800 mb-6">บทความที่เกี่ยวข้อง</h2>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 @foreach($relatedArticles as $relatedArticle)
-                                    <a href="{{ route('article.show', $relatedArticle->slug) }}" class="flex items-center group">
+                                    <a href="{{ route('article.show', ['article' => $relatedArticle]) }}" class="flex items-center group">
                                         <div class="w-20 h-20 flex-shrink-0">
                                             <img class="w-full h-full object-cover rounded lazy" data-src="{{ $relatedArticle->thumbnail_url }}" alt="{{ $relatedArticle->title }}" src="{{ asset('images/placeholder.jpg') }}">
                                         </div>

@@ -219,6 +219,11 @@ class ArticleController extends Controller
     {
         $tagIds = [];
         
+        // ถ้า $tagInput เป็น string (เช่น กรณีที่ส่งมาเป็น comma-separated string)
+        if (is_string($tagInput)) {
+            $tagInput = array_filter(explode(',', $tagInput));
+        }
+        
         foreach ($tagInput as $tagName) {
             // Skip empty tags
             if (empty(trim($tagName))) {

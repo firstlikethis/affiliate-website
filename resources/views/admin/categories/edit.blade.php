@@ -58,7 +58,7 @@
             <div class="mb-4">
                 <p class="text-sm text-gray-700 mb-2">สร้างเมื่อ: {{ $category->created_at->format('d/m/Y H:i') }}</p>
                 <p class="text-sm text-gray-700 mb-2">แก้ไขล่าสุด: {{ $category->updated_at->format('d/m/Y H:i') }}</p>
-                <p class="text-sm text-gray-700 mb-2">URL: <a href="{{ route('category.show', $category->slug) }}" target="_blank" class="text-blue-500 hover:underline">{{ route('category.show', $category->slug) }}</a></p>
+                <p class="text-sm text-gray-700 mb-2">URL: <a href="{{ route('category.show', ['category' => $category]) }}" target="_blank" class="text-blue-500 hover:underline">{{ route('category.show', ['category' => $category]) }}</a></p>
             </div>
         </div>
         

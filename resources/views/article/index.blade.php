@@ -83,7 +83,7 @@
                                 <x-slot name="actions">
                                     <div class="flex flex-wrap gap-2 mt-2 mb-4">
                                         @foreach($article->tags as $t)
-                                            <a href="{{ route('article.tag', $t->slug) }}" class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full hover:bg-purple-200">
+                                            <a href="{{ route('article.tag', ['tag' => $t]) }}" class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full hover:bg-purple-200">
                                                 {{ $t->name }}
                                             </a>
                                         @endforeach
@@ -92,7 +92,7 @@
                                         <span class="text-gray-500 text-sm flex items-center">
                                             <i class="far fa-eye mr-1"></i> {{ number_format($article->views) }} ครั้ง
                                         </span>
-                                        <a href="{{ route('article.show', $article->slug) }}" class="text-purple-600 font-medium hover:text-purple-800 inline-flex items-center">
+                                        <a href="{{ route('article.show', ['article' => $article]) }}" class="text-purple-600 font-medium hover:text-purple-800 inline-flex items-center">
                                             อ่านเพิ่มเติม <i class="fas fa-arrow-right ml-1"></i>
                                         </a>
                                     </div>

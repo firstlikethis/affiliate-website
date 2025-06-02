@@ -28,8 +28,8 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 
 // Articles routes
 Route::get('/articles', [ArticleController::class, 'index'])->name('article.index');
-Route::get('/article/{article:slug}', [ArticleController::class, 'show'])->name('article.show');
-Route::get('/tag/{tag:slug}', [ArticleController::class, 'tag'])->name('article.tag');
+Route::get('/article/{article}', [ArticleController::class, 'show'])->name('article.show');
+Route::get('/tag/{tag}', [ArticleController::class, 'tag'])->name('article.tag');
 
 // Product search for articles
 Route::post('/articles/search-products', [ArticleController::class, 'searchProducts'])->name('articles.search-products');

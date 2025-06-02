@@ -261,7 +261,7 @@
         
         productSearch.addEventListener('input', debounce(function(e) {
             const query = e.target.value.trim();
-            
+        
             if (query.length < 2) {
                 productSearchResults.innerHTML = '';
                 productSearchResults.classList.add('hidden');
