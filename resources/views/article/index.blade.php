@@ -92,7 +92,7 @@
                                         <span class="text-gray-500 text-sm flex items-center">
                                             <i class="far fa-eye mr-1"></i> {{ number_format($article->views) }} ครั้ง
                                         </span>
-                                        <a href="{{ route('article.show', ['article' => $article]) }}" class="text-purple-600 font-medium hover:text-purple-800 inline-flex items-center">
+                                        <a href="{{ route('article.show', $article) }}" class="text-purple-600 font-medium hover:text-purple-800 inline-flex items-center">
                                             อ่านเพิ่มเติม <i class="fas fa-arrow-right ml-1"></i>
                                         </a>
                                     </div>
@@ -130,7 +130,7 @@
                 <ul class="space-y-2">
                     @foreach($categories as $category)
                         <li>
-                            <a href="{{ route('category.show', $category->slug) }}" class="flex items-center justify-between px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-purple-700 rounded-md">
+                            <a href="{{ route('category.show', $category) }}" class="flex items-center justify-between px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-purple-700 rounded-md">
                                 <span>{{ $category->name }}</span>
                                 <i class="fas fa-chevron-right text-xs"></i>
                             </a>
@@ -144,7 +144,7 @@
                 <h3 class="text-lg font-bold text-gray-800 mb-4">แท็กยอดนิยม</h3>
                 <div class="flex flex-wrap gap-2">
                     @foreach($tags->take(15) as $t)
-                        <a href="{{ route('article.tag', $t->slug) }}" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700 transition duration-300">
+                        <a href="{{ route('article.tag', $t) }}" class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-purple-100 hover:text-purple-700 transition duration-300">
                             {{ $t->name }}
                         </a>
                     @endforeach
